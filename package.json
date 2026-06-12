@@ -17,5 +17,8 @@
     "url": "https://github.com/erroldmell0/devello/issues"
   },
   "homepage": "https://github.com/erroldmell0/devello#readme",
-  "description": ""
+  "description": "",
+  "engines": {
+    "node": ">=20"
+  }
 }
