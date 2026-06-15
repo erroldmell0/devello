@@ -7,22 +7,21 @@ import { connectDB } from "./lib/db.js";
 
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
+import { clerkMiddleware } from "@clerk/express";
+import chatRoutes from "./routes/chatRoutes.js";
 
 const app = express();
 
 //middleware
 app.use(express.json());
-app.use(cors({origin:ENV.CLIENT_URL,credentials:true})); 
-// credentails:true - server allows browser cookies on request
+app.use(cors({origin:ENV.CLIENT_URL,credentials:true}));// credentails:true - server allows browser cookies on request
+app.use(clerkMiddleware()); // this adds auth field to req object: req.auth()
 
 app.use("/api/inngest",serve({client:inngest,functions}))
+app.use("/api/chats", chatRoutes)
 
 app.get("/health", (req, res) => {
     res.status(200).json({ message: "server is up and running" })
-})
-
-app.get("/books", (req, res) => {
-    res.status(200).json({ message: "list of books" })
 })
 
 const _dirname = path.resolve();
