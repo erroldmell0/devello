@@ -27,6 +27,8 @@ const syncUser = inngest.createFunction(
             name: newUser.name,
             image: newUser.profileImage
         })
+
+        //include a welcome email
     }
 )
 
