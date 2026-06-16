@@ -1,4 +1,5 @@
 import {StreamChat} from "stream-chat";
+import {StreamClient} from "@stream-io/node-sdk";
 import {ENV} from "./env.js"
 
 const apiKey = ENV.STREAM_API_KEY
@@ -8,7 +9,8 @@ if(!apiKey || !secretKey){
     console.error("Stream API Key is missing")
 }
 
-export const chatClient = StreamChat.getInstance(apiKey, secretKey)
+export const chatClient = StreamChat.getInstance(apiKey, secretKey); // for chat features
+export const streamClient =  new StreamClient(apiKey, secretKey); // for video calls
 
 //upser - means both create and update an user 
 export const upsertStreamUser = async(userData) => {
