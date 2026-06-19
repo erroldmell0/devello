@@ -1,5 +1,4 @@
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react'
-import toast from 'react-hot-toast'
+import { SignInButton} from '@clerk/react'
 import { Link } from 'react-router'
 import {ArrowRightIcon, Bug, ZapIcon, CheckIcon, VideoIcon, Code2Icon,UsersIcon} from "lucide-react"
 
@@ -43,7 +42,7 @@ const HomePage = () => {
             </div>
 
             <h1 className="text-5xl lg:text-7xl font-black leading-tight">
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Code Together,
               </span>
               <br />
