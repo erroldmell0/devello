@@ -32,7 +32,7 @@ export const sessionApi = {
     },
 
     getStreamToken: async() => {
-        const response = await api.get(`/chat/token`);
+        const response = await api.get(`/chats/token`);
         return response.data;
     },
 }
