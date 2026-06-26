@@ -84,7 +84,7 @@ export async function getSessionById(req, res) {
         const {id} = req.params; 
         const session = await Session.findById(id)
         .populate("host", "name email profileImage clerkId")
-        .populate("participant ", "name email profileImage clerkId");
+        .populate("participant", "name email profileImage clerkId");
 
         if(!session) {
             return res.status(404).json({message:"Session not found"});
