@@ -8,12 +8,23 @@ import {CallControls, CallingState, SpeakerLayout, useCallStateHooks,} from "@st
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "stream-chat-react/dist/css/index.css";
 
-function VideoCallUI({ chatClient, channel }) {
+function VideoCallUI({ chatClient, channel, isHost, sessionId, endSessionMutation }) {
   const navigate = useNavigate();
   const { useCallCallingState, useParticipantCount } = useCallStateHooks();
   const callingState = useCallCallingState();
   const participantCount = useParticipantCount();
   const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleLeaveCall = () => {
+    if (isHost) {
+      // host leaving = end the entire session
+      endSessionMutation.mutate(sessionId, {
+        onSuccess: () => navigate("/dashboard"),
+      });
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
   if (callingState === CallingState.JOINING) {
     return (
@@ -54,7 +65,7 @@ function VideoCallUI({ chatClient, channel }) {
         </div>
 
         <div className="bg-base-100 p-3 rounded-lg shadow flex justify-center">
-          <CallControls onLeave={() => navigate("/dashboard")} />
+          <CallControls onLeave={handleLeaveCall} />
         </div>
       </div>
 

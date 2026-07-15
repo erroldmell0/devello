@@ -60,6 +60,8 @@ const SessionPage = () => {
     if (session.status === "completed") navigate("/dashboard");
   }, [session, loadingSession, navigate]);
 
+
+
   // update code when problem loads or changes
   useEffect(() => { 
     if (problemData?.starterCode?.[selectedLanguage]) {
@@ -262,7 +264,7 @@ const SessionPage = () => {
                 <div className="h-full">
                   <StreamVideo client={streamClient}>
                     <StreamCall call={call}>
-                      <VideoCallUI chatClient={chatClient} channel={channel} />
+                      <VideoCallUI chatClient={chatClient} channel={channel} isHost={isHost} sessionId={id} endSessionMutation={endSessionMutation} />
                     </StreamCall>
                   </StreamVideo>
                 </div>
