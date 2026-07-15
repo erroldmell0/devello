@@ -6,6 +6,8 @@ const LANGUAGE_CONFIG = {
   javascript: { id: 63, name: "JavaScript (Node.js 12.14.0)" },
   python: { id: 71, name: "Python (3.8.1)" },
   java: { id: 62, name: "Java (OpenJDK 13.0.1)" },
+  c: { id: 50, name: "C (GCC 9.2.0)" },
+  cpp: { id: 54, name: "C++ (GCC 9.2.0)" },
 };
 
 /**
