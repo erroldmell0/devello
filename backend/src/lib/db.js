@@ -3,6 +3,11 @@ import { ENV } from "./env.js"
 
 export const connectDB = async () => {
     try {
+        // In serverless (Vercel), this function may be called on every request.
+        // Skip if already connected to avoid redundant connections.
+        if (mongoose.connection.readyState === 1) {
+            return;
+        }
         if (!ENV.DB_URL) {
             throw new Error("DB_URL is not defined")
         }
@@ -10,6 +15,5 @@ export const connectDB = async () => {
         console.log("database connected successfully:", connect.connection.host)
     } catch (err) {
         console.error("database connection failed", err)
-        process.exit(1); // 0 you add for succes, 1 you add for faliure
     }
 }
