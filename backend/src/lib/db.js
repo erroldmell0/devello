@@ -14,6 +14,8 @@ export const connectDB = async () => {
         const connect = await mongoose.connect(ENV.DB_URL)
         console.log("database connected successfully:", connect.connection.host)
     } catch (err) {
+        // rethrow, otherwise callers fail later as a confusing 404/500
         console.error("database connection failed", err)
+        throw err
     }
 }

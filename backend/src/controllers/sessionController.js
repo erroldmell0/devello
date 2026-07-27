@@ -67,7 +67,7 @@ export async function getMyRecentSessions(req, res) {
         const userId = req.user._id;
         const sessions = await Session.find({
             status: "completed", 
-            $or: [{host: userId}, {participants: userId}]
+            $or: [{host: userId}, {participant: userId}]
         }) 
         .sort({createdAt: -1})
         .limit(20);
@@ -99,7 +99,7 @@ export async function getSessionById(req, res) {
 
 export async function joinSession(req, res) {
     try {
-        const id = req.params;
+        const {id} = req.params;
         const userId = req.user._id
         const clerkId = req.user.clerkId
         
