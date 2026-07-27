@@ -1,11 +1,11 @@
-import { clerkClient, requireAuth, getAuth } from "@clerk/express";
+import { clerkClient, getAuth } from "@clerk/express";
 import User from "../models/User.js";
 
 export const protectRoute = [
-    requireAuth({signInUrl: "/sign-in"}),
     async (req,res,next) => {
         try {
-            const clerkId = req.auth().userId;
+            const auth = getAuth(req);
+            const clerkId = auth?.userId;
             if(!clerkId) return res.status(401).json({message:"User not authenticated"})
             
             // find user in db using clerk ID

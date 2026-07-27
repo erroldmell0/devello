@@ -15,7 +15,7 @@ const app = express();
 
 //middleware
 app.use(express.json());
-app.use(cors({origin:ENV.CLIENT_URL,credentials:true}));// credentails:true - server allows browser cookies on request
+app.use(cors({origin:ENV.CLIENT_URL?.replace(/\/+$/, ""),credentials:true}));// credentails:true - server allows browser cookies on request
 app.use(clerkMiddleware()); // this adds auth field to req object: req.auth()
 
 // connect to DB on every request (serverless-safe, skips if already connected)
