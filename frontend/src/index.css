@@ -3,10 +3,211 @@
     themes: all;
 }
 
-/* Add cursor pointer to buttons by default - this is coming from tailwind docs */
+/* ============================================================
+   Devello — terminal brutalism
+   Dark forest palette is kept exactly as it was; only the shapes,
+   edges and type change. Everything is square, every border is
+   heavy, every shadow is a hard un-blurred offset in the theme's
+   own green. The vocabulary is a terminal: mono chrome, bracketed
+   [TAGS], "> " prompts on headings, hatched fills.
+   ============================================================ */
+
+@theme {
+    --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* DaisyUI v5 draws every component from these. Zeroing the radii and
+   thickening the border squares off cards, buttons, badges, selects,
+   modals and alerts in one move, without touching a single component.
+   Applied to every [data-theme] so the brutalist geometry survives a
+   theme switch — only the palette should change, never the shapes.
+   Left unlayered on purpose: unlayered rules outrank daisyUI's layered
+   theme declarations regardless of which theme is active. */
+:root,
+[data-theme] {
+    --radius-selector: 0rem;
+    --radius-field: 0rem;
+    --radius-box: 0rem;
+    --border: 2px;
+    --depth: 0;
+    --noise: 0;
+}
+
 @layer base {
+    /* Add cursor pointer to buttons by default - this is coming from tailwind docs */
     button:not(:disabled),
     [role="button"]:not([disabled]) {
         cursor: pointer;
+    }
+
+    /* Faint scanlines over the whole app — the ambient texture, and the
+       counterpart to a print grid rather than a copy of one. */
+    body {
+        background-image: repeating-linear-gradient(
+            0deg,
+            color-mix(in oklab, var(--color-primary) 4%, transparent) 0 1px,
+            transparent 1px 5px
+        );
+    }
+
+    h1, h2, h3, h4 {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    /* Square, high-contrast focus ring */
+    :where(a, button, input, textarea, select):focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        border-radius: 0;
+    }
+}
+
+@layer components {
+    /* ---- Surfaces -------------------------------------------------- */
+
+    /* The base slab: heavy border, hard green offset shadow, no radius. */
+    .brut {
+        border: 2px solid var(--color-primary);
+        border-radius: 0;
+        box-shadow: 4px 4px 0 var(--color-primary);
+    }
+
+    .brut-lg {
+        border: 2px solid var(--color-primary);
+        border-radius: 0;
+        box-shadow: 7px 7px 0 var(--color-primary);
+    }
+
+    /* Quieter slab for nested/list items — outline only, no shadow. */
+    .brut-flat {
+        border: 2px solid color-mix(in oklab, var(--color-primary) 35%, transparent);
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .brut-accent {
+        border-color: var(--color-accent);
+        box-shadow: 4px 4px 0 var(--color-accent);
+    }
+
+    .brut-secondary {
+        border-color: var(--color-secondary);
+        box-shadow: 4px 4px 0 var(--color-secondary);
+    }
+
+    /* ---- Motion ----------------------------------------------------- */
+
+    /* Controls shift into their own shadow instead of scaling. */
+    .brut-press {
+        transition: transform 90ms ease, box-shadow 90ms ease,
+            background-color 120ms ease, color 120ms ease;
+    }
+
+    .brut-press:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 6px 6px 0 var(--color-primary);
+    }
+
+    .brut-press:active {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--color-primary);
+    }
+
+    /* Hover lift for non-interactive slabs (cards that are links). */
+    .brut-lift {
+        transition: transform 90ms ease, box-shadow 90ms ease,
+            border-color 120ms ease;
+    }
+
+    .brut-lift:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 var(--color-primary);
+    }
+
+    /* ---- Type ------------------------------------------------------- */
+
+    /* Bracketed mono tag: [ LIVE ], [ EASY ] — the label vocabulary. */
+    .brut-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 0.15rem 0.45rem;
+        border: 2px solid currentColor;
+        border-radius: 0;
+        word-spacing: 0.3em;
+    }
+
+    /* Small mono caption — counters, meta, hints. */
+    .brut-meta {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        word-spacing: 0.35em;
+    }
+
+    /* Section heading carrying a terminal prompt. */
+    .brut-prompt::before {
+        content: "> ";
+        color: var(--color-primary);
+    }
+
+    /* ---- Texture ----------------------------------------------------- */
+
+    /* Diagonal hatch used for icon plates and empty states, replacing
+       the gradient fills the old design used. */
+    .brut-hatch {
+        background-image: repeating-linear-gradient(
+            45deg,
+            color-mix(in oklab, var(--color-primary) 22%, transparent) 0 2px,
+            transparent 2px 7px
+        );
+    }
+
+    .brut-hatch-accent {
+        background-image: repeating-linear-gradient(
+            45deg,
+            color-mix(in oklab, var(--color-accent) 22%, transparent) 0 2px,
+            transparent 2px 7px
+        );
+    }
+
+    /* Corner brackets — the framing motif, used around hero and
+       empty-state blocks. */
+    .brut-brackets {
+        position: relative;
+    }
+
+    .brut-brackets::before,
+    .brut-brackets::after {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border: 3px solid var(--color-primary);
+        pointer-events: none;
+    }
+
+    .brut-brackets::before {
+        top: -6px;
+        left: -6px;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .brut-brackets::after {
+        right: -6px;
+        bottom: -6px;
+        border-left: none;
+        border-top: none;
     }
 }
