@@ -10,6 +10,10 @@ export const DEFAULT_THEME = "forest";
  * the filename is just the consequence.
  *
  * Covers all 35 daisyUI themes; anything unlisted falls back to the green art.
+ *
+ * The green art is a PNG because it has a real alpha channel and blends into
+ * the page. The rest are fully opaque with a baked white background, so they
+ * ship as JPEG at 1024px — same pixels on screen, ~145 KB instead of ~4.4 MB.
  */
 export const HERO_FAMILIES = {
   green: {
@@ -17,23 +21,23 @@ export const HERO_FAMILIES = {
     themes: ["forest", "dim", "lemonade", "abyss", "silk", "emerald"],
   },
   whiteBlack: {
-    src: "/hero_white_black.png",
+    src: "/hero_white_black.jpg",
     themes: ["black", "luxury", "lofi", "wireframe"],
   },
   blue: {
-    src: "/hero_blue.png",
+    src: "/hero_blue.jpg",
     themes: ["night", "business", "aqua", "cmyk", "winter", "nord", "corporate", "cupcake"],
   },
   pink: {
-    src: "/hero_pink.png",
+    src: "/hero_pink.jpg",
     themes: ["dracula", "cyberpunk", "valentine", "garden", "acid"],
   },
   purple: {
-    src: "/hero_purple.png",
+    src: "/hero_purple.jpg",
     themes: ["dark", "light", "synthwave", "pastel", "fantasy"],
   },
   brown: {
-    src: "/hero_brown.png",
+    src: "/hero_brown.jpg",
     themes: ["coffee", "halloween", "autumn", "sunset", "caramellatte", "retro", "bumblebee"],
   },
 };
