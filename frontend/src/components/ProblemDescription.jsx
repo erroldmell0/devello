@@ -7,7 +7,7 @@ function ProblemDescription({ problem, currentProblemId, onProblemChange, allPro
       <div className="p-6 bg-base-100 border-b border-base-300">
         <div className="flex items-start justify-between mb-3">
           <h1 className="text-3xl font-bold text-base-content">{problem.title}</h1>
-          <span className={`badge ${getDifficultyBadgeClass(problem.difficulty)}`}>
+          <span className={`brut-tag ${getDifficultyBadgeClass(problem.difficulty)}`}>
             {problem.difficulty}
           </span>
         </div>
@@ -51,7 +51,7 @@ function ProblemDescription({ problem, currentProblemId, onProblemChange, allPro
             {problem.examples.map((example, idx) => (
               <div key={idx}>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="badge badge-sm">{idx + 1}</span>
+                  <span className="brut-tag text-primary">{idx + 1}</span>
                   <p className="font-semibold text-base-content">Example {idx + 1}</p>
                 </div>
                 <div className="bg-base-200 rounded-lg p-4 font-mono text-sm space-y-1.5">

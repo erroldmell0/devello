@@ -121,7 +121,7 @@ const SessionPage = () => {
                       </div>
 
                       <div className="flex items-center gap-3">
-                        <span className={`badge badge-lg ${getDifficultyBadgeClass(session?.difficulty)}`}>
+                        <span className={`brut-tag ${getDifficultyBadgeClass(session?.difficulty)}`}>
                           {session?.difficulty.slice(0, 1).toUpperCase() + session?.difficulty.slice(1) || "Easy"}
                         </span>
                         {isHost && session?.status === "active" && (
@@ -130,7 +130,7 @@ const SessionPage = () => {
                             End Session
                           </button>
                         )}
-                        {session?.status === "completed" && (<span className="badge badge-ghost badge-lg">Completed</span>)}
+                        {session?.status === "completed" && (<span className="brut-tag text-base-content/60">Completed</span>)}
                       </div>
                     </div>
                   </div>
@@ -160,7 +160,7 @@ const SessionPage = () => {
                           {problemData.examples.map((example, idx) => (
                             <div key={idx}>
                               <div className="flex items-center gap-2 mb-2">
-                                <span className="badge badge-sm">{idx + 1}</span>
+                                <span className="brut-tag text-primary">{idx + 1}</span>
                                 <p className="font-semibold text-base-content">Example {idx + 1}</p>
                               </div>
                               <div className="bg-base-200 rounded-lg p-4 font-mono text-sm space-y-1.5">
