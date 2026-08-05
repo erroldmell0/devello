@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router";
 import { BookOpenIcon, LayoutDashboardIcon, Bug } from "lucide-react";
 import { UserButton } from "@clerk/react";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 function Navbar() {
   const location = useLocation();
@@ -48,7 +49,9 @@ function Navbar() {
             </div>
           </Link>
 
-          <div className="ml-3 flex items-center border-2 border-primary/30 p-1">
+          <ThemeSwitcher />
+
+          <div className="ml-1 flex items-center border-2 border-primary/30 p-1">
             <UserButton />
           </div>
         </div>

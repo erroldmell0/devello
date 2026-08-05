@@ -1,8 +1,14 @@
 import { SignInButton} from '@clerk/react'
 import { Link } from 'react-router'
 import {ArrowRightIcon, Bug, ZapIcon, CheckIcon, VideoIcon, Code2Icon,UsersIcon} from "lucide-react"
+import ThemeSwitcher, { useTheme, getHeroForTheme } from "../components/ThemeSwitcher"
 
 const HomePage = () => {
+  const theme = useTheme();
+
+  // Hero artwork follows the active theme's colour family.
+  const heroSrc = getHeroForTheme(theme);
+
   return (
     <>
       <div className="bg-base-200">
@@ -21,13 +27,16 @@ const HomePage = () => {
                 </div>
               </Link>
 
-              {/* Auth Button */}
-              <SignInButton mode="modal">
-                  <button className='group px-6 py-3 bg-primary border-2 border-primary text-primary-content font-mono font-bold text-sm uppercase tracking-widest brut-press flex items-center gap-2'>
-                  <span>Get Started</span>
-                  <ArrowRightIcon className='size-4 group-hover:translate-x-0.5 transition-transform'/>
-                </button>
-              </SignInButton>
+              {/* Theme picker + Auth Button */}
+              <div className='flex items-center gap-3'>
+                <ThemeSwitcher />
+                <SignInButton mode="modal">
+                    <button className='group px-6 py-3 bg-primary border-2 border-primary text-primary-content font-mono font-bold text-sm uppercase tracking-widest brut-press flex items-center gap-2'>
+                    <span>Get Started</span>
+                    <ArrowRightIcon className='size-4 group-hover:translate-x-0.5 transition-transform'/>
+                  </button>
+                </SignInButton>
+              </div>
           </div>
         </nav>
 
@@ -105,7 +114,7 @@ const HomePage = () => {
           {/* RIGHT IMAGE */}
           <div className="brut-brackets">
             <img
-              src="/hero.png"
+              src={heroSrc}
               alt="CodeCollab Platform"
               className="w-full h-auto border-2 border-primary brut-lg"
             />

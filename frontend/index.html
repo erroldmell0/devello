@@ -8,6 +8,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>Devello</title>
+    <script>
+      // Apply the saved theme before first paint so the picked theme doesn't
+      // flash the default one on load. Key matches THEME_STORAGE_KEY.
+      try {
+        var savedTheme = localStorage.getItem("devello-theme");
+        if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
