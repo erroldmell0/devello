@@ -13,18 +13,25 @@ import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
 
-// CLIENT_URL may hold several comma separated origins
-const allowedOrigins = (ENV.CLIENT_URL || "")
-    .split(",")
-    .map((origin) => origin.trim().replace(/\/+$/, ""))
-    .filter(Boolean);
+const stripSlash = (url) => url.trim().replace(/\/+$/, "");
+
+// the known frontends stay in the list so a stale or missing CLIENT_URL cannot
+// silently take the whole API down; CLIENT_URL may add several comma separated origins
+const allowedOrigins = [...new Set([
+    "http://localhost:5173",
+    "https://errol-devello.vercel.app",
+    ...(ENV.CLIENT_URL || "").split(",").map(stripSlash).filter(Boolean),
+])];
 
 //middleware
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true); // non-browser clients send no Origin
-        if (!allowedOrigins.length) return callback(null, true);
-        callback(null, allowedOrigins.includes(origin.replace(/\/+$/, "")));
+        if (allowedOrigins.includes(stripSlash(origin))) return callback(null, true);
+        // cors answers a refused preflight without any header, which reads in the
+        // browser as "server is down" - name the origin so the log says otherwise
+        console.warn(`CORS refused origin ${origin}; allowed: ${allowedOrigins.join(", ")}`);
+        callback(null, false);
     },
     credentials: true, // credentails:true - server allows browser cookies on request
 }));
