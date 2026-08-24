@@ -1,5 +1,5 @@
 import { useUser } from '@clerk/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router'
 import { useEndSession, useJoinSession, useSessionById } from '../hooks/useSessions';
 
@@ -41,17 +41,31 @@ const SessionPage = () => {
     ? Object.values(PROBLEMS).find((p) => p.title === session.problem): null;
 
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-  const [code, setCode] = useState(problemData?.starterCode?.[selectedLanguage] || "");
+  const starterCode = problemData?.starterCode?.[selectedLanguage] ?? "";
+  const [code, setCode] = useState(starterCode);
+
+  // the problem only arrives with the session fetch, so the starter code is unknown
+  // on the first render. Adjusting during render instead of in an effect keeps the
+  // editor from painting empty and then immediately repainting.
+  const starterKey = `${session?.problem ?? ""}::${selectedLanguage}`;
+  const [appliedStarterKey, setAppliedStarterKey] = useState(starterKey);
+  if (starterKey !== appliedStarterKey) {
+    setAppliedStarterKey(starterKey);
+    setCode(starterCode);
+  }
 
   // auto-join session if user is not already a participant and not the host
+  const autoJoinedSessionId = useRef(null);
   useEffect(() => {
     if (!session || !user || loadingSession) return;
     if (isHost || isParticipant) return;
+    // useJoinSession returns a fresh object every render, so the effect re-runs
+    // constantly; the ref is what keeps it to one join per session
+    if (autoJoinedSessionId.current === id) return;
 
-    joinSessionMutation.mutate(id, { onSuccess: refetch });
-
-    // remove the joinSessionMutation, refetch from dependencies to avoid infinite loop
-  }, [session, user, loadingSession, isHost, isParticipant, id]);
+    autoJoinedSessionId.current = id;
+    joinSessionMutation.mutate(id, { onSuccess: refetchSession });
+  }, [session, user, loadingSession, isHost, isParticipant, id, joinSessionMutation, refetchSession]);
 
   // redirect the "participant" when session ends
   useEffect(() => {
@@ -61,20 +75,9 @@ const SessionPage = () => {
   }, [session, loadingSession, navigate]);
 
 
-
-  // update code when problem loads or changes
-  useEffect(() => { 
-    if (problemData?.starterCode?.[selectedLanguage]) {
-      setCode(problemData.starterCode[selectedLanguage]);
-    }
-  }, [problemData, selectedLanguage]);
-
   const handleLanguageChange = (e) => {
-    const newLang = e.target.value;
-    setSelectedLanguage(newLang);
-    // use problem-specific starter code
-    const starterCode = problemData?.starterCode?.[newLang] || "";
-    setCode(starterCode);
+    // the starter-code adjustment above reacts to the language change on its own
+    setSelectedLanguage(e.target.value);
     setOutput(null);
   };
 
