@@ -100,13 +100,12 @@ devello/
 │       ├── models/         # Mongoose schemas
 │       ├── routes/         # Express routes
 │       └── server.js       # Entry point
-├── frontend/
-│   └── src/
-│       ├── api/            # Axios API calls
-│       ├── components/     # React components
-│       ├── data/           # Coding problems
-│       ├── hooks/          # Custom hooks
-│       ├── lib/            # Utilities & configs
-│       └── pages/          # Page components
-└── package.json            # Root build scripts
+└── frontend/
+    └── src/
+        ├── api/            # Axios API calls
+        ├── components/     # React components
+        ├── data/           # Coding problems
+        ├── hooks/          # Custom hooks
+        ├── lib/            # Utilities & configs
+        └── pages/          # Page components
 ```

@@ -14,3 +14,7 @@ backend/dist/
 
 # Local Notes
 devello_notes.txt
+devello_project_explanation.md
+
+# Old Sevalla deploy scripts (root only)
+/package.json
